@@ -20,6 +20,43 @@ router.get('/', (req, res, next) => {
     })
 })
 
+router.get('/add', (req, res, next) => {
+    const details = req.query
+
+    City.create(details)
+    .then(details => {
+        res.json({
+            confirmation: 'Success',
+            data: details,
+        })
+    })
+    .catch(err => {
+        res.json({
+            confirmation: 'Fail',
+            datta: err.message
+        })
+    })
+})
+
+router.get('/update/:id', (req, res, next) => {
+    const updatedDetails = req.query
+    const cityId = req.params.id
+
+    City.findByIdAndUpdate(cityId, updatedDetails, {new: true})
+    .then(cit => {
+        res.json({
+            confirmation: 'Success',
+            data: cit,
+        })
+    })
+    .catch(err => {
+        res.json({
+            confirmation: 'Fail',
+            datta: err.message
+        })
+    })
+})
+
 router.get('/:id', (req, res, next) => {
     City.findById(req.params.id)
     .then(city => {
